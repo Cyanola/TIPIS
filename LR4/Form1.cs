@@ -310,7 +310,7 @@ namespace LR4
             foreach (var item in result3)
             {
                 seriesThree.Points.Add(new DataPoint(item.Item1, item.Item2));
-                seriesFour.Points.Add(new DataPoint(item.Item1, item.Item3));
+    
             }
             foreach (var item in result4)
             {
@@ -325,33 +325,52 @@ namespace LR4
 
         }
 
-
-        public Dictionary<double, double> T8(int N, double a, double b, int MM, int L)
+        public class T8ModelResult
         {
-            double[] s = new double[N], k = new double[N], x = new double[N];
-            double porog = 15;
+            public Dictionary<double, double> graphic { get; set; } = new Dictionary<double, double>();
+            public (double A, double B) interval { get; set; } = default;
+        }
+        public T8ModelResult T8(int MM, int N, int a, int b)
+        {
+            var result = new T8ModelResult();
+            const double porog = 15, t = 1.960, d_prav = 0.95;
+
+            double[] s = new double[N], k = new double[N], x = new double[N]; ;
             for (int i = 0; i < N; i++) s[i] = Math.Sin(-2.0 * Math.PI * i / N);
             for (int i = 0; i < N; i++) k[i] = s[N - 1 - i];
-            var result = new Dictionary<double, double>();
-            var d_prav = new double[MM];
+
             for (int n = 0; n < MM; n++)
             {
-                var A = 0.2 + 0.05 * n;
-                for (int j = 0; j <L; j++)
+                double A = 0.2 + 0.05 * n;
+                
+
+                for (int j = 0; j < N; j++)
                 {
                     for (int i = 0; i < N; i++) x[i] = GaussRandom((_) => true) + A * s[i];
                     var z = Solg();
-                    if (z >= porog) d_prav[n] += 1.0 / L;
+
+                    if (z >= porog)
+                    {
+                        result.graphic.Add(A, z);
+                        break;
+                    }
                 }
-                result.Add(A, d_prav[n]);
+                
             }
+            double m_ = result.graphic.Select((item) => item.Value).Sum() / N,
+                D = result.graphic.Select((item) => Math.Pow(item.Value - m_, 2)).Sum() / N;
+
+            double o = Math.Pow(D / N, 0.5), e = o * o * t;
+            result.interval = (m_ - e, m_ + e);
+
+            return result;
             double Solg()
             {
                 var sym = default(double);
                 for (int i = 0; i < N; i++) sym = sym + x[i] * k[N - 1 - i];
                 return sym;
             }
-            return result;
+            
             double GaussRandom(Predicate<double> state)
             {
                 double retval = default;
@@ -362,12 +381,35 @@ namespace LR4
                 }
                 return retval;
             }
-            double sogl()
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            chart4.Series.Clear();
+
+            chrt.Series seriesOne =
+              new chrt.Series()
+              {
+                  Color = Color.SkyBlue,
+                  Name = "График 1",
+                  ChartType = SeriesChartType.Spline,
+                  BorderWidth = 4,
+              };
+
+            int L = (int)numericUpDown5.Value;
+            int N = (int)numericUpDown4.Value;
+            var result = T8(N, L, 0, 1);
+
+            foreach (var item in result.graphic)
             {
-                var sym = default(double);
-                for (int i = 0; i < N; i++) sym = sym + x[i] * k[N - 1 - i];
-                return sym;
+                seriesOne.Points.Add(new DataPoint(item.Key, item.Value));
             }
+            chart4.Series.Add(seriesOne);
+  
+
+            this.label5.Text = $"({string.Format("{0:F2}", result.interval.A)}; " +
+                $"{string.Format("{0:F2}", result.interval.B)})";
         }
     }
 }
