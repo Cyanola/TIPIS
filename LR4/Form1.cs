@@ -106,7 +106,7 @@ namespace LR4
             chrt.Series seriesOne =
               new chrt.Series()
               {
-                  Color = Color.IndianRed,
+                  Color = Color.Green,
                   Name = "График 1",
                   ChartType = SeriesChartType.Spline,
                   BorderWidth = 4,
@@ -115,7 +115,7 @@ namespace LR4
             chrt.Series seriesTwo =
              new chrt.Series()
              {
-                 Color = Color.SteelBlue,
+                 Color = Color.Red,
                  Name = "График 2",
                  ChartType = SeriesChartType.Spline,
                  BorderWidth = 4,
@@ -145,7 +145,7 @@ namespace LR4
             chrt.Series seriesOne =
               new chrt.Series()
               {
-                  Color = Color.SkyBlue,
+                  Color = Color.Green,
                   Name = "График 1",
                   ChartType = SeriesChartType.Spline,
                   BorderWidth = 4,
@@ -154,7 +154,7 @@ namespace LR4
             chrt.Series seriesTwo =
              new chrt.Series()
              {
-                 Color = Color.Pink,
+                 Color = Color.Red,
                  Name = "График 2",
                  ChartType = SeriesChartType.Spline,
                  BorderWidth = 4,
@@ -260,7 +260,7 @@ namespace LR4
             chrt.Series seriesOne =
               new chrt.Series()
               {
-                  Color = Color.SkyBlue,
+                  Color = Color.Green,
                   Name = "Система 1",
                   ChartType = SeriesChartType.Spline,
                   BorderWidth = 4,
@@ -269,7 +269,7 @@ namespace LR4
             chrt.Series seriesTwo =
              new chrt.Series()
              {
-                 Color = Color.Pink,
+                 Color = Color.Red,
                  Name = "Система 2",
                  ChartType = SeriesChartType.Spline,
                  BorderWidth = 4,
@@ -278,7 +278,7 @@ namespace LR4
             chrt.Series seriesThree =
              new chrt.Series()
              {
-                 Color = Color.DarkGreen,
+                 Color = Color.Blue,
                  Name = "Разность",
                  ChartType = SeriesChartType.Spline,
                  BorderWidth = 4,
@@ -287,7 +287,7 @@ namespace LR4
             chrt.Series seriesFour =
              new chrt.Series()
              {
-                 Color = Color.IndianRed,
+                 Color = Color.Yellow,
                  Name = "Теоретическая\n истинная\n разность",
                  ChartType = SeriesChartType.Spline,
                  BorderWidth = 4,
@@ -391,7 +391,7 @@ namespace LR4
             chrt.Series seriesOne =
               new chrt.Series()
               {
-                  Color = Color.SkyBlue,
+                  Color = Color.Green,
                   Name = "График 1",
                   ChartType = SeriesChartType.Spline,
                   BorderWidth = 4,
