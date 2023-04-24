@@ -156,6 +156,7 @@ namespace LR5
 
             dataGrid1.Rows[0].HeaderCell.Value = $"x(t)";
             dataGrid1.Rows[1].HeaderCell.Value = $"Nk";
+
             List<double> result1 = new List<double>();
             List<double> result2 = new List<double>();
             double result3 = default;
@@ -175,10 +176,10 @@ namespace LR5
             }
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < 23; j++)
+                for (int j = 0; j < 24; j++)
                 {
                     dataGrid.Rows[0].Cells[j].Value = j + 1;
-                    dataGrid.Rows[1].Cells[j].Value = result2.ElementAt(j);
+                    dataGrid.Rows[1].Cells[j].Value = result1.ElementAt(j);
 
                     dataGrid.Rows[i].Cells[j].Style.BackColor = SystemColors.Control;
                     dataGrid.Columns[j].Width = 50;
@@ -190,10 +191,10 @@ namespace LR5
 
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < 23; j++)
+                for (int j = 0; j < result2.Count; j++)
                 {
                     dataGrid1.Rows[0].Cells[j].Value = j+1;
-                    dataGrid1.Rows[1].Cells[j].Value = result1.ElementAt(j);
+                    dataGrid1.Rows[1].Cells[j].Value = result2.ElementAt(j);
 
                     dataGrid1.Rows[i].Cells[j].Style.BackColor = SystemColors.Control;
                     dataGrid1.Columns[j].Width = 50;
