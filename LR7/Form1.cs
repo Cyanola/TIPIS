@@ -17,11 +17,13 @@ namespace LR7
         public Form1()
         {
             InitializeComponent();
+            listView1.View = System.Windows.Forms.View.SmallIcon;
         }
+
         //N=2
+
         double result;
 
-        double Intensity = 10 * 3 / 6.0;
         int V = 4;
         public double Calculate(int v, int Intensity)
         {
@@ -61,8 +63,6 @@ namespace LR7
         }
         private FoundedModel[] CheckCroosing(int VN)
         {
-            //for (int i = 0; i <= 4; i++) Console.WriteLine($"i{i}: {this.CalculatePInfinity(1, i, out p0_inf)} : {p0_inf}\t {this.CalculatePInfinity(2, i, out p0_inf)} : {p0_inf}\t " +
-            //    $"{this.CalculatePInfinity(3, i, out p0_inf)} : {p0_inf}\t {this.CalculatePInfinity(4, i, out p0_inf)} : {p0_inf}");
             var result = new List<FoundedModel>();
             for(int i = 1; i <= VN; i++)
             {
@@ -108,17 +108,19 @@ namespace LR7
                 return (Math.Pow(lq, i) / this.Factorial(i)) / value;
             }
         }
+    
         private void button1_Click(object sender, EventArgs e)
         {
             chart1.Series.Clear();
-            chrt.Series seriesZero =
-              new chrt.Series()
-              {
-                  Color = Color.Green,
-                  Name = "Канал 0",
-                  ChartType = SeriesChartType.Spline,
-                  BorderWidth = 4,
-              };
+            listView1.Items.Clear();
+            //chrt.Series seriesZero =
+            //  new chrt.Series()
+            //  {
+            //      Color = Color.Green,
+            //      Name = "Канал 0",
+            //      ChartType = SeriesChartType.Spline,
+            //      BorderWidth = 4,
+            //  };
 
             chrt.Series seriesOne =
               new chrt.Series()
@@ -154,30 +156,145 @@ namespace LR7
              };
             for (int i = 0; i <= 15; i++)
             {
-                seriesZero.Points.Add(new DataPoint(i, Calculate(0, i)));
+                //seriesZero.Points.Add(new DataPoint(i, Calculate(0, i)));
                 seriesOne.Points.Add(new DataPoint(i, Calculate(1, i)));
                 seriesTwo.Points.Add(new DataPoint(i, Calculate(2, i)));
                 seriesThree.Points.Add(new DataPoint(i, Calculate(3, i)));
                 seriesFour.Points.Add(new DataPoint(i, Calculate(4, i)));
 
             }
-            chart1.Series.Add(seriesZero);
+            //chart1.Series.Add(seriesZero);
             chart1.Series.Add(seriesOne);
             chart1.Series.Add(seriesTwo);
             chart1.Series.Add(seriesThree);
             chart1.Series.Add(seriesFour);
-            //label3.Text = CalculatePInfinity(4, (double)numericUpDown1.Value).ToString();
-            var p0_inf = default(double);
-            for (int i = 0; i <= 4; i++) Console.WriteLine($"i{i}: {this.CalculatePInfinity(1, i, out p0_inf)} : {p0_inf}\t {this.CalculatePInfinity(2, i, out p0_inf)} : {p0_inf}\t " +
-                $"{this.CalculatePInfinity(3, i, out p0_inf)} : {p0_inf}\t {this.CalculatePInfinity(4, i, out p0_inf)} : {p0_inf}");
-            
+
             foreach(var item in this.CheckCroosing(V))
             {
                 Console.WriteLine($"({item.Values.P0}, {item.Values.PINf}):\ti: {item.I}; v: {item.V}");
             }
 
-            var c = this.CalculateCharacter(4);
-            Console.WriteLine($"Pb: {c.Pb}\nPt: {c.Pt}\nPh: {c.Ph}\nY: {c.Y}\nR: {c.R}\nA: {c.A}");
+            var c = this.CalculateCharacter(2);
+          
+            listView1.Items.Add("Вероятность потери вызова " + c.Pb.ToString());
+            listView1.Items.Add("Вероятность потерь по времени " + c.Pt.ToString());
+            listView1.Items.Add("Вероятность потерь по нагрузке " + c.Ph.ToString());
+            listView1.Items.Add("Обслуженная нагрузка Y " + c.Y.ToString());
+            listView1.Items.Add("Избыточная нагрузка R " + c.R.ToString());
+            listView1.Items.Add("Потенциальная нагрузка " + c.A.ToString());
+
+            dataGridFull(dataGridView1, true);
+
+            dataGridFull(dataGridView2, false);
         }
+        private void dataGridFull(DataGridView dataGrid, bool flag)
+        {
+            dataGrid.Rows.Clear();
+            dataGrid.Font = new Font("Comic Sans MS", 9);
+
+
+            dataGrid.AllowUserToResizeColumns = false;
+            dataGrid.AllowUserToResizeRows = false;
+            dataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
+            dataGrid.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+            dataGrid.RowHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+            dataGrid.EnableHeadersVisualStyles = false;
+            dataGrid.DefaultCellStyle.SelectionBackColor = Color.LightCoral;
+            dataGrid.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGrid.RowHeadersDefaultCellStyle.SelectionBackColor = Color.LightCoral;
+            dataGrid.RowHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGrid.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.LightCoral;
+
+            if (flag)
+            {
+                var p0_inf = default(double);
+                dataGrid.RowCount = V + 1;
+                dataGrid.ColumnCount = 11;
+                dataGrid.RowHeadersWidth = 70;
+                dataGrid.ColumnHeadersHeight = 50;
+                dataGrid.Columns[0].HeaderCell.Value = $"i";
+
+                dataGrid.Columns[1].HeaderCell.Value = $"Pi(∞), v=0";
+                dataGrid.Columns[2].HeaderCell.Value = $"P0(∞), v=0";
+                dataGrid.Columns[3].HeaderCell.Value = $"Pi(∞), v=1";
+                dataGrid.Columns[4].HeaderCell.Value = $"P0(∞), v=1";
+                dataGrid.Columns[5].HeaderCell.Value = $"Pi(∞), v=2";
+                dataGrid.Columns[6].HeaderCell.Value = $"P0(∞), v=2";
+                dataGrid.Columns[7].HeaderCell.Value = $"Pi(∞), v=3";
+                dataGrid.Columns[8].HeaderCell.Value = $"P0(∞), v=3";
+                dataGrid.Columns[9].HeaderCell.Value = $"Pi(∞), v=4";
+                dataGrid.Columns[10].HeaderCell.Value = $"P0(∞), v=4";
+
+                for (int i = 0; i < V + 1; i++)
+                {
+                    for (int j = 0; j < 11; j++)
+                    {
+                        dataGrid.Rows[i].Cells[0].Value = i;
+                        dataGrid.Rows[i].Cells[1].Value = this.CalculatePInfinity(0, i, out p0_inf);
+                        dataGrid.Rows[i].Cells[2].Value = p0_inf;
+                        dataGrid.Rows[i].Cells[3].Value = this.CalculatePInfinity(1, i, out p0_inf);
+                        dataGrid.Rows[i].Cells[4].Value = p0_inf;
+                        dataGrid.Rows[i].Cells[5].Value = this.CalculatePInfinity(2, i, out p0_inf);
+                        dataGrid.Rows[i].Cells[6].Value = p0_inf;
+                        dataGrid.Rows[i].Cells[7].Value = this.CalculatePInfinity(3, i, out p0_inf);
+                        dataGrid.Rows[i].Cells[8].Value = p0_inf;
+                        dataGrid.Rows[i].Cells[9].Value = this.CalculatePInfinity(4, i, out p0_inf);
+                        dataGrid.Rows[i].Cells[10].Value = p0_inf;
+                        dataGrid.Rows[i].Cells[j].Style.BackColor = SystemColors.Control;
+                        dataGrid.Columns[j].Width = 160;
+                        dataGrid.Rows[i].Height = 30;
+                        //dataGrid.Rows[i].HeaderCell.Value = $"{i + 1}";
+
+                    }
+                }
+                dataGrid.Columns[0].Width = 40;
+                dataGrid.Columns[1].Width = 60;
+                dataGrid.Columns[2].Width = 60;
+            }
+            else if (flag == false)
+            {
+                dataGrid.RowCount = V;
+                dataGrid.ColumnCount = 3;
+                dataGrid.RowHeadersWidth = 70;
+                dataGrid.ColumnHeadersHeight = 60;
+                dataGrid.Columns[0].HeaderCell.Value = $"i";
+
+                dataGrid.Columns[1].HeaderCell.Value = $"V";
+                dataGrid.Columns[2].HeaderCell.Value = $"P0";
+                dataGrid.Columns[2].HeaderCell.Value = $"Точки пересечений, Pi(∞)";
+
+                int a = 0;
+                foreach (var item in this.CheckCroosing(V))
+                {
+                    if (a <= V)
+                    {
+                        dataGrid.Rows[a].Cells[0].Value = item.I;
+                        dataGrid.Rows[a].Cells[1].Value = item.V;
+                        dataGrid.Rows[a].Cells[2].Value = $"({item.Values.P0}; {item.Values.PINf})";
+                        a++;
+                    }
+                }
+                    for (int i = 0; i < V; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {                
+                        
+                        dataGrid.Rows[i].Cells[j].Style.BackColor = SystemColors.Control;
+                    
+                        dataGrid.Rows[i].Height = 30;
+                        //dataGrid.Rows[i].HeaderCell.Value = $"{i + 1}";
+
+                    }
+                }
+                dataGrid.Columns[0].Width = 40;
+                dataGrid.Columns[1].Width = 40;
+                dataGrid.Columns[2].Width = 100;
+          
+            }
         }
+
+    }
 }
