@@ -26,8 +26,8 @@ namespace LR5
         double lambda = 10 * 3 / 6.0;
         //T1 = N+1;
         //T2=N+4;
- static   int T1 = 3;
-    static  int T2 = 6;
+        static int T1 = 3;
+        static int T2 = 6;
         public double[] TK;
         double[] Zi;
         double[] Ri;
@@ -59,42 +59,42 @@ namespace LR5
 
             dataGrid.Columns[1].HeaderCell.Value = $"Zi";
             dataGrid.Columns[2].HeaderCell.Value = $"Tk";
-           Ri = new double[N];
-            for (int i = 0; i  < Ri.Length; i++)
+            Ri = new double[N];
+            for (int i = 0; i < Ri.Length; i++)
             {
-               Ri[i]= RND.NextDouble();
+                Ri[i] = RND.NextDouble();
             }
-           Zi  = new double[N];
+            Zi = new double[N];
 
             for (int i = 0; i < Zi.Length; i++)
             {
-                Zi[i] =( -1.0 / lambda) * Math.Log(Ri[i]);
+                Zi[i] = (-1.0 / lambda) * Math.Log(Ri[i]);
             }
 
             var Tk = new List<double>();
-            for(; (Tk.Count == 0) ? true : Tk[Tk.Count - 1] <= T2;)
+            for (; (Tk.Count == 0) ? true : Tk[Tk.Count - 1] <= T2;)
             {
                 Tk.Add(T1);
-                
-                for(int i = 0; i < Tk.Count && i < Zi.Length; i++) Tk[Tk.Count - 1] += Zi[i];
-        
-            }       
+
+                for (int i = 0; i < Tk.Count && i < Zi.Length; i++) Tk[Tk.Count - 1] += Zi[i];
+
+            }
 
             for (int i = 0; i < N; i++)
             {
-                for (int j = 0; j <3; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     dataGrid.Rows[i].Cells[0].Value = Ri[i];
                     dataGrid.Rows[i].Cells[1].Value = Zi[i];
-   
+
                     dataGrid.Rows[i].Cells[j].Style.BackColor = SystemColors.Control;
                     dataGrid.Columns[j].Width = 160;
                     dataGrid.Rows[i].Height = 30;
-                    dataGrid.Rows[i].HeaderCell.Value = $"{i+1}";
+                    dataGrid.Rows[i].HeaderCell.Value = $"{i + 1}";
 
                 }
             }
-           for(int i = 0; i<Tk.Count; i++)
+            for (int i = 0; i < Tk.Count; i++)
             {
                 dataGrid.Rows[i].Cells[2].Value = Tk[i];
             }
@@ -103,7 +103,7 @@ namespace LR5
         }
 
 
-        double tau = (T2 -T1) / 24.0;
+        double tau = (T2 - T1) / 24.0;
         public void Table23(double[] Tk, DataGridView dataGrid, DataGridView dataGrid1)
         {
             dataGrid.Rows.Clear();
@@ -163,7 +163,7 @@ namespace LR5
             for (double i = T1; i < T2; i += tau)
             {
                 var count = default(int);
-                for (int o =0;o< Tk.Length; o++) { if (Tk[o] < i) count++; }
+                for (int o = 0; o < Tk.Length; o++) { if (Tk[o] < i) count++; }
                 result1.Add(count);
             }
             for (int index = 0; index < 24; index++)
@@ -193,14 +193,14 @@ namespace LR5
             {
                 for (int j = 0; j < result2.Count; j++)
                 {
-                    dataGrid1.Rows[0].Cells[j].Value = j+1;
+                    dataGrid1.Rows[0].Cells[j].Value = j + 1;
                     dataGrid1.Rows[1].Cells[j].Value = result2.ElementAt(j);
 
                     dataGrid1.Rows[i].Cells[j].Style.BackColor = SystemColors.Control;
                     dataGrid1.Columns[j].Width = 50;
                     dataGrid1.Rows[0].Height = 30;
                     dataGrid1.Rows[1].Height = 30;
-        
+
                 }
             }
             Lambda = result3 / (T2 - T1);
@@ -210,20 +210,20 @@ namespace LR5
             if (x == 1) return 1;
             return this.Factorial(x - 1) * x;
         }
-       
+
         private void Calculate_lambda()
         {
             int t = T2 - T1;
             double P0 = Math.Round(Math.Pow(Math.E, -lambda * t), 10, MidpointRounding.AwayFromZero);
             label5.Text = string.Format("{0:F10}", P0);
-            double P1 = Math.Round(Math.Pow(Math.E, -lambda * t) *lambda * t, 10, MidpointRounding.AwayFromZero);
+            double P1 = Math.Round(Math.Pow(Math.E, -lambda * t) * lambda * t, 10, MidpointRounding.AwayFromZero);
             label11.Text = string.Format("{0:F10}", P1);
 
 
             double P4 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 4) / this.Factorial(4), 10, MidpointRounding.AwayFromZero);
             label13.Text = string.Format("{0:F10}", P4);
             double P2 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 2) / this.Factorial(2), 10, MidpointRounding.AwayFromZero);
-           double P3 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 3) / this.Factorial(3), 10, MidpointRounding.AwayFromZero);
+            double P3 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 3) / this.Factorial(3), 10, MidpointRounding.AwayFromZero);
             double sum = P0 + P1 + P2 + P3 + P4;
             double Pmore5 = 1 - sum;
             label16.Text = string.Format("{0:F10}", Pmore5);
@@ -231,7 +231,7 @@ namespace LR5
             double sum1 = P0 + P1 + P2;
             label19.Text = string.Format("{0:F10}", sum1);
             double P5 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 5) / this.Factorial(5), 10, MidpointRounding.AwayFromZero);
-            double P6 =  Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 6) / this.Factorial(6), 10, MidpointRounding.AwayFromZero);
+            double P6 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 6) / this.Factorial(6), 10, MidpointRounding.AwayFromZero);
             double P7 = Math.Round(Math.Pow(Math.E, -lambda) * Math.Pow(lambda, 7) / this.Factorial(7), 10, MidpointRounding.AwayFromZero);
             sum += P5 + P6 + P7;
             label22.Text = string.Format("{0:F10}", sum);
@@ -240,11 +240,12 @@ namespace LR5
         }
         double F()
         {
-            var x = new List<double>() ;
-            for(int i =0; i<Zi.Length; i++) {
-                if (Zi[i] >=0.1 && Zi[i] <=0.5) x.Add(Zi[i]);
+            var x = new List<double>();
+            for (int i = 0; i < Zi.Length; i++)
+            {
+                if (Zi[i] >= 0.1 && Zi[i] <= 0.5) x.Add(Zi[i]);
             }
-            return (double)(x.Count)/(double)(Zi.Length);
+            return (double)(x.Count) / (double)(Zi.Length);
         }
         //xdxdxdxdxdxd
 
@@ -287,13 +288,13 @@ namespace LR5
         private void button1_Click(object sender, EventArgs e)
         {
             Table1((int)numericUpDown1.Value, dataGridView1);
-            Table23(TK, dataGridView2,dataGridView3);
+            Table23(TK, dataGridView2, dataGridView3);
             label2.Text = string.Format("{0:F6}", Lambda);
             Calculate_lambda();
             Calc_ZiLambda((int)numericUpDown1.Value);
             Calculate_Lambda();
         }
 
-      
+
     }
 }

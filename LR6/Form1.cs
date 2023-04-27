@@ -177,7 +177,7 @@ namespace LR6
 
         }
 
-    readonly double tau = (T2 - T1) / 24.0;
+        readonly double tau = (T2 - T1) / 24.0;
         List<(double, double)> result1;
         List<(double, double)> result2;
         List<(double, double)> result3;
@@ -327,15 +327,15 @@ namespace LR6
 
             model_lambda = Math.Round(res4 / (T2 - T1), 5, MidpointRounding.AwayFromZero);
         }
-        public List<(double, double)>Sum(List<(double, double)> list1, List<(double, double)> list2)
+        public List<(double, double)> Sum(List<(double, double)> list1, List<(double, double)> list2)
         {
-            return list1.Zip(list2, (item1, item2) => (item1.Item1, item1.Item2+item2.Item2)).ToList();
+            return list1.Zip(list2, (item1, item2) => (item1.Item1, item1.Item2 + item2.Item2)).ToList();
         }
         private void Show_Click(object sender, EventArgs e)
         {
             //Table1((int)numericUpDown1.Value, dataGridView1);
             //Table2((int)numericUpDown1.Value, dataGridView2);
-            Table3(TK,(int)numericUpDown1.Value, dataGridView3, dataGridView4);
+            Table3(TK, (int)numericUpDown1.Value, dataGridView3, dataGridView4);
             label2.Text = model_lambda.ToString();
 
             label10.Text = model_lambda.ToString();
@@ -353,7 +353,7 @@ namespace LR6
             else if (model_lambda < (lambdaOne + lambdaTwo))
             {
                 label16.Text = "<";
-                label17.Text = $"в {(lambdaOne + lambdaTwo)/ model_lambda} раз";
+                label17.Text = $"в {(lambdaOne + lambdaTwo) / model_lambda} раз";
             }
             else label16.Text = "=";
             chart1.Series.Clear();
@@ -417,6 +417,6 @@ namespace LR6
             chart3.Series.Add(seriesThree);
         }
 
-       
+
     }
 }
